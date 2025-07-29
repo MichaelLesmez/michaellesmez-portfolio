@@ -9,7 +9,6 @@ export default function HeroSection() {
 	const [mounted, setMounted] = useState(false);
 	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 	const [isOverClickable, setIsOverClickable] = useState(false);
-	const [showExperience, setShowExperience] = useState(false);
 	
 	const roles = [
 		'Full Stack Developer',
