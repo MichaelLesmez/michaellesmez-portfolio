@@ -1,11 +1,66 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { useState } from 'react';
 
 export default function ContactSection() {
+	const [isResumeOpen, setIsResumeOpen] = useState(false);
+
 	return (
 		<section className="py-20 px-4">
 			<div className="max-w-4xl mx-auto">
+				{/* Resume Section */}
+				<motion.div
+					initial={{ opacity: 0, y: 20 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					viewport={{ once: true }}
+					className="mb-12"
+				>
+					<motion.button
+						onClick={() => setIsResumeOpen(!isResumeOpen)}
+						whileHover={{ scale: 1.02 }}
+						whileTap={{ scale: 0.98 }}
+						className="w-full bg-white rounded-xl shadow-lg p-6 border border-gray-200 hover:shadow-xl transition-all duration-300"
+					>
+						<div className="flex items-center justify-center relative">
+							<h3 className="text-2xl font-bold text-gray-900">Resume</h3>
+							<motion.svg
+								animate={{ rotate: isResumeOpen ? 180 : 0 }}
+								transition={{ duration: 0.3 }}
+								className="w-6 h-6 text-gray-600 absolute right-0"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+							</motion.svg>
+						</div>
+					</motion.button>
+
+					<motion.div
+						initial={false}
+						animate={{ 
+							height: isResumeOpen ? "auto" : 0,
+							opacity: isResumeOpen ? 1 : 0
+						}}
+						transition={{ duration: 0.3 }}
+						className="overflow-hidden"
+					>
+						<div className="bg-white rounded-xl shadow-lg p-6 mt-4">
+							<Image
+								src="/resume.png"
+								alt="Michael Lesmez Resume"
+								width={800}
+								height={1000}
+								className="w-full h-auto rounded-lg"
+								priority
+							/>
+						</div>
+					</motion.div>
+				</motion.div>
+
+				{/* Contact Section */}
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					whileInView={{ opacity: 1, y: 0 }}
@@ -30,12 +85,12 @@ export default function ContactSection() {
 									/>
 									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
 								</svg>
-								<span>San Francisco, CA</span>
+								<span>Arlington, VA</span>
 							</div>
 						</motion.div>
 						<div className="flex flex-col items-center gap-6 mb-8">
 							<motion.a
-								href="mailto:sarah.parker@example.com"
+								href="mailto:michaellesmez@gmail.com"
 								whileHover={{ scale: 1.05 }}
 								whileTap={{ scale: 0.95 }}
 								className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium text-white"
@@ -50,26 +105,11 @@ export default function ContactSection() {
 								</svg>
 								Get in Touch
 							</motion.a>
-							<motion.a
-								href="/resume.pdf"
-								target="_blank"
-								whileHover={{ scale: 1.05 }}
-								whileTap={{ scale: 0.95 }}
-								className="flex items-center gap-3 px-8 py-4 bg-gray-50 hover:bg-gray-100 rounded-2xl border border-gray-200 transition-all duration-300"
-							>
-								<svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth="2"
-										d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-									/>
-								</svg>
-								<span className="font-medium text-gray-600">View Resume</span>
-							</motion.a>
 							<div className="flex gap-4">
 								<motion.a
-									href="#"
+									href="https://github.com/michaellesmez"
+									target="_blank"
+									rel="noopener noreferrer"
 									whileHover={{ scale: 1.05 }}
 									whileTap={{ scale: 0.95 }}
 									className="group flex items-center justify-center p-4 bg-blue-50 hover:bg-blue-100 rounded-xl border border-blue-200 transition-all duration-300"
@@ -79,23 +119,15 @@ export default function ContactSection() {
 									</svg>
 								</motion.a>
 								<motion.a
-									href="#"
+									href="https://linkedin.com/in/michael-lesmez-390bb4204"
+									target="_blank"
+									rel="noopener noreferrer"
 									whileHover={{ scale: 1.05 }}
 									whileTap={{ scale: 0.95 }}
 									className="group flex items-center justify-center p-4 bg-purple-50 hover:bg-purple-100 rounded-xl border border-purple-200 transition-all duration-300"
 								>
 									<svg className="w-6 h-6 text-purple-600 group-hover:text-purple-700 transition-colors" fill="currentColor" viewBox="0 0 24 24">
 										<path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-									</svg>
-								</motion.a>
-								<motion.a
-									href="#"
-									whileHover={{ scale: 1.05 }}
-									whileTap={{ scale: 0.95 }}
-									className="group flex items-center justify-center p-4 bg-pink-50 hover:bg-pink-100 rounded-xl border border-pink-200 transition-all duration-300"
-								>
-									<svg className="w-6 h-6 text-pink-600 group-hover:text-pink-700 transition-colors" fill="currentColor" viewBox="0 0 24 24">
-										<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
 									</svg>
 								</motion.a>
 							</div>
