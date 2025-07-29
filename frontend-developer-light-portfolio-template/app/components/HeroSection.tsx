@@ -2,123 +2,398 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
 
 export default function HeroSection() {
-	return (
-		<section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-			<div className="absolute inset-0 bg-gradient-to-r from-blue-100 to-purple-100 opacity-50" />
-			<div className="absolute inset-0">
-				<div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
-			</div>
+	const [currentRole, setCurrentRole] = useState(0);
+	const [mounted, setMounted] = useState(false);
+	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+	const [isOverClickable, setIsOverClickable] = useState(false);
+	const [showExperience, setShowExperience] = useState(false);
+	
+	const roles = [
+		'Full Stack Developer',
+		'Performance Engineer',
+		'Microservices Architect',
+		'AWS Cloud Practitioner'
+	];
 
-			{/* AWS Certification Floating */}
-			<motion.a
-				href="https://www.credly.com/badges/9474819f-563d-4903-b9bc-94f5ef5979ad"
-				target="_blank"
-				rel="noopener noreferrer"
-				className="absolute top-20 right-10 z-20 cursor-pointer"
-				animate={{
-					y: [0, -15, 0],
-					rotate: [0, 2, -2, 0]
-				}}
-				transition={{
-					duration: 4,
-					repeat: Infinity,
-					ease: "easeInOut"
-				}}
-				whileHover={{ scale: 1.05 }}
-				whileTap={{ scale: 0.95 }}
-			>
-				<div className="relative w-40 h-40 md:w-48 md:h-48 flex items-center justify-center">
-					<Image
-						src="/AWSCloudPractitioner.png"
-						alt="AWS Cloud Practitioner Certification"
-						width={160}
-						height={160}
-						className="object-contain drop-shadow-lg"
-						priority
-						onError={(e) => {
-							console.error('Failed to load AWS certification image');
-							// Show a fallback text instead
-							e.currentTarget.style.display = 'none';
-							const fallback = document.createElement('div');
-							fallback.className = 'text-xs text-gray-600 font-medium text-center';
-							fallback.textContent = 'AWS Cloud Practitioner';
-							e.currentTarget.parentNode?.appendChild(fallback);
+	// Fixed particles to avoid hydration issues
+	const particles = Array.from({ length: 20 }, (_, i) => ({
+		id: i,
+		x: (i * 17) % 100, // Deterministic positioning
+		y: (i * 23) % 100,
+		size: (i % 3) + 2,
+		duration: (i % 5) + 6,
+	}));
+
+	// Handle mounting to avoid hydration issues
+	useEffect(() => {
+		setMounted(true);
+		const interval = setInterval(() => {
+			setCurrentRole((prev) => (prev + 1) % roles.length);
+		}, 3000);
+		return () => clearInterval(interval);
+	}, []);
+
+	// Global mouse tracking for black hole cursor
+	useEffect(() => {
+		const handleMouseMove = (e: MouseEvent) => {
+			setMousePosition({
+				x: e.clientX,
+				y: e.clientY
+			});
+
+			// Check if mouse is over a clickable element
+			const target = e.target as HTMLElement;
+			const isClickable = target.closest('a, button, [role="button"], [onclick]');
+			setIsOverClickable(!!isClickable);
+		};
+
+		// Add cursor style to body and all clickable elements
+		document.body.style.cursor = 'none';
+		
+		// Override cursor for all clickable elements
+		const style = document.createElement('style');
+		style.textContent = `
+			a, button, [role="button"], [onclick] {
+				cursor: none !important;
+				pointer-events: auto !important;
+			}
+			a *, button *, [role="button"] *, [onclick] * {
+				cursor: none !important;
+				pointer-events: auto !important;
+			}
+		`;
+		document.head.appendChild(style);
+		
+		document.addEventListener('mousemove', handleMouseMove);
+
+		return () => {
+			document.body.style.cursor = 'auto';
+			document.removeEventListener('mousemove', handleMouseMove);
+			// Remove the style element
+			if (style.parentNode) {
+				style.parentNode.removeChild(style);
+			}
+		};
+	}, []);
+
+	return (
+		<>
+			{/* Global Black Hole Cursor */}
+			{mounted && (
+				<motion.div
+					className="fixed pointer-events-none z-[9999]"
+					style={{
+						left: mousePosition.x - 25,
+						top: mousePosition.y - 25,
+					}}
+					initial={{ scale: 0 }}
+					animate={{ 
+						scale: 1,
+						filter: isOverClickable ? 'brightness(1.5) drop-shadow(0 0 10px rgba(255,255,255,0.8))' : 'brightness(1)'
+					}}
+					transition={{ duration: 0.2 }}
+				>
+					{/* Outer event horizon */}
+					<motion.div
+						className="w-12 h-12 rounded-full border"
+						style={{
+							borderColor: isOverClickable ? 'rgba(147, 51, 234, 0.6)' : 'rgba(147, 51, 234, 0.3)'
+						}}
+						animate={{ 
+							scale: [1, 1.5, 1],
+							opacity: isOverClickable ? [0.6, 0.3, 0.6] : [0.3, 0.1, 0.3]
+						}}
+						transition={{ duration: 2, repeat: Infinity }}
+					/>
+					
+					{/* Middle ring */}
+					<motion.div
+						className="absolute inset-1 w-10 h-10 rounded-full border"
+						style={{
+							borderColor: isOverClickable ? 'rgba(59, 130, 246, 0.8)' : 'rgba(59, 130, 246, 0.5)'
+						}}
+						animate={{ 
+							scale: [1, 1.3, 1],
+							rotate: 360
+						}}
+						transition={{ 
+							scale: { duration: 1.5, repeat: Infinity },
+							rotate: { duration: 3, repeat: Infinity, ease: "linear" }
 						}}
 					/>
-				</div>
-			</motion.a>
-
-			{/* AWS AI Practitioner Badge Floating (Left) */}
-			<motion.a
-				href="#" // Add your Credly link if you have one
-				target="_blank"
-				rel="noopener noreferrer"
-				className="absolute top-8 left-0 z-20 cursor-pointer"
-				animate={{
-					y: [0, -15, 0],
-					rotate: [0, -2, 2, 0]
-				}}
-				transition={{
-					duration: 4,
-					repeat: Infinity,
-					ease: "easeInOut"
-				}}
-				whileHover={{ scale: 1.05 }}
-				whileTap={{ scale: 0.95 }}
-			>
-				<Image
-					src="/AWSAIPractitioner.png"
-					alt="AWS AI Practitioner Certification"
-					width={280}
-					height={280}
-					className="object-contain drop-shadow-lg"
-					priority
-					onError={(e) => {
-						console.error('Failed to load AWS AI Practitioner image');
-						// Show a fallback text instead
-						e.currentTarget.style.display = 'none';
-						const fallback = document.createElement('div');
-						fallback.className = 'text-xs text-gray-600 font-medium text-center';
-						fallback.textContent = 'AWS AI Practitioner';
-						e.currentTarget.parentNode?.appendChild(fallback);
-					}}
-				/>
-			</motion.a>
-
-			<div className="relative z-10 text-center px-4">
-				<motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-					{/* Profile Image */}
-					<motion.div 
-						initial={{ opacity: 0, scale: 0.8 }} 
-						animate={{ opacity: 1, scale: 1 }} 
-						transition={{ duration: 0.6, delay: 0.2 }}
-						className="mb-8 flex justify-center"
-					>
-						<div className="relative w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-white shadow-lg">
-							<Image
-								src="/profile.png"
-								alt="Michael Lesmez"
-								fill
-								className="object-cover"
-								priority
-							/>
-						</div>
-					</motion.div>
 					
-					<h1 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">Michael Lesmez</h1>
-					<p className="text-xl md:text-2xl text-gray-600 mb-8">Full Stack Developer</p>
+					{/* Inner black core */}
+					<motion.div
+						className="absolute inset-2 w-8 h-8 rounded-full bg-black border border-white/20"
+						animate={{ 
+							scale: [1, 0.8, 1],
+						}}
+						transition={{ duration: 1, repeat: Infinity }}
+						style={{
+							boxShadow: isOverClickable 
+								? 'inset 0 0 15px rgba(255,255,255,0.3), 0 0 30px rgba(255,255,255,0.4)'
+								: 'inset 0 0 15px rgba(255,255,255,0.1), 0 0 30px rgba(0,0,0,0.8)'
+						}}
+					/>
+					
+					{/* Accretion disk particles */}
+					{Array.from({ length: 6 }).map((_, i) => (
+						<motion.div
+							key={i}
+							className="absolute w-0.5 h-0.5 rounded-full"
+							style={{
+								left: '50%',
+								top: '50%',
+								transformOrigin: `${15 + i * 3}px center`,
+								backgroundColor: isOverClickable ? 'rgba(255, 165, 0, 0.9)' : 'rgba(251, 146, 60, 0.7)'
+							}}
+							animate={{
+								rotate: 360,
+								scale: [0.5, 1, 0.5],
+								opacity: isOverClickable ? [0.9, 0.4, 0.9] : [0.7, 0.2, 0.7]
+							}}
+							transition={{
+								rotate: { duration: 0.4 + i * 0.1, repeat: Infinity, ease: "linear" },
+								scale: { duration: 1 + i * 0.2, repeat: Infinity },
+								opacity: { duration: 1 + i * 0.1, repeat: Infinity }
+							}}
+						/>
+					))}
 				</motion.div>
-			</div>
+			)}
 
-			<div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-				<motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 2, repeat: Infinity }} className="text-gray-500">
-					<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-					</svg>
+			<section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+				{/* Animated Background */}
+				<div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+					<div className="absolute inset-0 bg-gradient-to-r from-blue-100/30 to-purple-100/30" />
+				</div>
+
+				{/* Floating Particles - only render after mount */}
+				{mounted && particles.map((particle) => (
+					<motion.div
+						key={particle.id}
+						className="absolute w-2 h-2 bg-blue-400/20 rounded-full"
+						style={{
+							left: `${particle.x}%`,
+							top: `${particle.y}%`,
+							width: `${particle.size}px`,
+							height: `${particle.size}px`,
+						}}
+						animate={{
+							y: [0, -30, 0],
+							x: [0, particle.id % 2 === 0 ? 10 : -10, 0],
+							opacity: [0.3, 0.8, 0.3],
+						}}
+						transition={{
+							duration: particle.duration,
+							repeat: Infinity,
+							ease: "easeInOut",
+						}}
+					/>
+				))}
+
+				{/* Grid Pattern */}
+				<div className="absolute inset-0">
+					<div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-20 [mask-image:radial-gradient(ellipse_at_center,white,transparent)]" />
+				</div>
+
+				{/* AWS Certifications */}
+				<motion.a
+					href="https://www.credly.com/badges/9474819f-563d-4903-b9bc-94f5ef5979ad"
+					target="_blank"
+					rel="noopener noreferrer"
+					className="absolute top-20 right-10 z-20"
+					animate={{
+						y: [0, -15, 0],
+						rotate: [0, 2, -2, 0],
+						scale: [1, 1.05, 1],
+					}}
+					transition={{
+						duration: 4,
+						repeat: Infinity,
+						ease: "easeInOut"
+					}}
+					whileHover={{ 
+						scale: 1.1,
+						rotate: 5,
+						transition: { duration: 0.2 }
+					}}
+					whileTap={{ scale: 0.95 }}
+				>
+					<div className="relative w-40 h-40 md:w-48 md:h-48 flex items-center justify-center">
+						<Image
+							src="/AWSCloudPractitioner.png"
+							alt="AWS Cloud Practitioner Certification"
+							width={160}
+							height={160}
+							className="object-contain drop-shadow-xl"
+							priority
+						/>
+					</div>
+				</motion.a>
+
+				<motion.a
+					href="#"
+					target="_blank"
+					rel="noopener noreferrer"
+					className="absolute top-8 left-0 z-20"
+					animate={{
+						y: [0, -15, 0],
+						rotate: [0, -2, 2, 0],
+						scale: [1, 1.03, 1],
+					}}
+					transition={{
+						duration: 4.5,
+						repeat: Infinity,
+						ease: "easeInOut"
+					}}
+					whileHover={{ 
+						scale: 1.08,
+						rotate: -5,
+						transition: { duration: 0.2 }
+					}}
+					whileTap={{ scale: 0.95 }}
+				>
+					<Image
+						src="/AWSAIPractitioner.png"
+						alt="AWS AI Practitioner Certification"
+						width={280}
+						height={280}
+						className="object-contain drop-shadow-xl"
+						priority
+					/>
+				</motion.a>
+
+				{/* Main Content */}
+				<div className="relative z-10 text-center px-4">
+					<motion.div 
+						initial={{ opacity: 0, y: 50 }} 
+						animate={{ opacity: 1, y: 0 }} 
+						transition={{ duration: 1, ease: "easeOut" }}
+					>
+						{/* Profile Image */}
+						<motion.div 
+							initial={{ opacity: 0, scale: 0.5, rotate: -180 }} 
+							animate={{ opacity: 1, scale: 1, rotate: 0 }} 
+							transition={{ duration: 1.2, delay: 0.3, type: "spring", stiffness: 200 }}
+							className="mb-8 flex justify-center"
+						>
+							<motion.div 
+								className="relative w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-white shadow-2xl"
+								whileHover={{ scale: 1.05 }}
+								transition={{ duration: 0.3 }}
+							>
+								<Image
+									src="/profile.png"
+									alt="Michael Lesmez"
+									fill
+									className="object-cover"
+									priority
+								/>
+							</motion.div>
+						</motion.div>
+						
+						{/* Name with Staggered Animation */}
+						<motion.h1 
+							className="text-5xl md:text-7xl font-bold mb-6"
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							transition={{ duration: 0.5, delay: 0.4 }}
+						>
+							<motion.span
+								className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"
+								initial={{ y: 50, opacity: 0 }}
+								animate={{ y: 0, opacity: 1 }}
+								transition={{ duration: 0.3, delay: 0.4 }}
+							>
+								Michael
+							</motion.span>{' '}
+							<motion.span
+								className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600"
+								initial={{ y: 50, opacity: 0 }}
+								animate={{ y: 0, opacity: 1 }}
+								transition={{ duration: 0.3, delay: 0.5 }}
+							>
+								Lesmez
+							</motion.span>
+						</motion.h1>
+
+						{/* Dynamic Role Title - only show after mount */}
+						<motion.div
+							initial={{ opacity: 0, y: 20 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.6, delay: 0.9 }}
+							className="mb-8 h-16 flex items-center justify-center"
+						>
+							{mounted ? (
+								<motion.p
+									key={currentRole}
+									initial={{ opacity: 0, y: 20, rotateX: -90 }}
+									animate={{ opacity: 1, y: 0, rotateX: 0 }}
+									exit={{ opacity: 0, y: -20, rotateX: 90 }}
+									transition={{ duration: 0.5 }}
+									className="text-xl md:text-2xl text-gray-700 font-medium"
+								>
+									{roles[currentRole]}
+								</motion.p>
+							) : (
+								<p className="text-xl md:text-2xl text-gray-700 font-medium">
+									{roles[0]}
+								</p>
+							)}
+						</motion.div>
+
+						{/* Experience Stat */}
+						<motion.div
+							initial={{ opacity: 0, y: 30 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.6, delay: 1.1 }}
+							className="flex justify-center mb-8"
+						>
+							<motion.div
+								whileHover={{ scale: 1.05, y: -5 }}
+								className="bg-white/60 backdrop-blur-sm rounded-2xl px-8 py-4 shadow-lg border border-white/20"
+							>
+								<div className="text-3xl font-bold text-blue-600">3+</div>
+								<div className="text-sm text-gray-600">Years Experience</div>
+							</motion.div>
+						</motion.div>
+					</motion.div>
+				</div>
+
+				{/* Enhanced Scroll Indicator */}
+				<motion.div 
+					className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ delay: 2 }}
+				>
+					<motion.div 
+						animate={{ y: [0, 10, 0] }} 
+						transition={{ duration: 2, repeat: Infinity }} 
+						className="flex flex-col items-center text-gray-500"
+					>
+						<span className="text-sm mb-2 font-medium">Scroll to explore</span>
+						<motion.svg
+							className="w-6 h-6"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+							whileHover={{ scale: 1.2 }}
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth="2"
+								d="M19 14l-7 7m0 0l-7-7m7 7V3"
+							/>
+						</motion.svg>
+					</motion.div>
 				</motion.div>
-			</div>
-		</section>
+			</section>
+		</>
 	);
 }

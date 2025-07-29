@@ -1,22 +1,6 @@
 'use client';
 
-import Image from 'next/image';
 import { motion } from 'framer-motion';
-
-const projects = [
-	{
-		title: 'E-commerce Dashboard',
-		description: 'A modern dashboard with dark mode, real-time charts, and responsive design',
-		image: '/laptop.jpg',
-		tags: ['React', 'TypeScript', 'Tailwind CSS', 'Chart.js'],
-	},
-	{
-		title: 'Social Media App',
-		description: 'Full-featured social platform with real-time messaging and notifications',
-		image: '/code.jpg',
-		tags: ['Next.js', 'Socket.io', 'Prisma', 'TailwindCSS'],
-	},
-];
 
 export default function ProjectsSection() {
 	return (
@@ -31,34 +15,83 @@ export default function ProjectsSection() {
 					Featured Projects
 				</motion.h2>
 
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-					{projects.map((project, index) => (
+				<motion.div
+					initial={{ opacity: 0, y: 20 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					viewport={{ once: true }}
+					transition={{ duration: 0.6 }}
+					className="text-center"
+				>
+					<div className="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 rounded-3xl p-16 border border-gray-200 shadow-lg">
 						<motion.div
-							key={index}
-							initial={{ opacity: 0, y: 20 }}
-							whileInView={{ opacity: 1, y: 0 }}
-							viewport={{ once: true }}
-							transition={{ delay: index * 0.2 }}
-							className="group relative bg-white rounded-xl overflow-hidden backdrop-blur-sm border border-gray-200 shadow-lg"
+							animate={{ 
+								scale: [1, 1.05, 1],
+								opacity: [0.7, 1, 0.7]
+							}}
+							transition={{ 
+								duration: 3,
+								repeat: Infinity,
+								ease: "easeInOut"
+							}}
+							className="mb-6"
 						>
-							<div className="aspect-video relative overflow-hidden">
-								<Image src={project.image} alt={project.title} fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
-								<div className="absolute inset-0 bg-gradient-to-t from-white via-white/0 to-transparent transition-transform duration-300 group-hover:scale-105" />
-							</div>
-							<div className="p-6">
-								<h3 className="text-xl font-bold mb-2 text-gray-900">{project.title}</h3>
-								<p className="text-gray-600 mb-4">{project.description}</p>
-								<div className="flex flex-wrap gap-2">
-									{project.tags.map((tag, i) => (
-										<span key={i} className="text-sm px-3 py-1 bg-blue-50 text-blue-700 rounded-full">
-											{tag}
-										</span>
-									))}
-								</div>
+							<div className="w-24 h-24 mx-auto bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+								<svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+								</svg>
 							</div>
 						</motion.div>
-					))}
-				</div>
+						
+						<motion.h3
+							initial={{ opacity: 0, y: 10 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true }}
+							transition={{ delay: 0.2 }}
+							className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-transparent bg-clip-text"
+						>
+							Coming Soon!
+						</motion.h3>
+						
+						<motion.p
+							initial={{ opacity: 0, y: 10 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true }}
+							transition={{ delay: 0.4 }}
+							className="text-xl text-gray-600 mb-6"
+						>
+							Exciting projects are in development
+						</motion.p>
+						
+						<motion.p
+							initial={{ opacity: 0, y: 10 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true }}
+							transition={{ delay: 0.6 }}
+							className="text-gray-500"
+						>
+							Check back soon to see my latest work in action
+						</motion.p>
+
+						{/* Animated dots */}
+						<motion.div className="flex justify-center space-x-2 mt-8">
+							{[0, 1, 2].map((i) => (
+								<motion.div
+									key={i}
+									className="w-3 h-3 bg-blue-400 rounded-full"
+									animate={{
+										scale: [1, 1.2, 1],
+										opacity: [0.5, 1, 0.5]
+									}}
+									transition={{
+										duration: 1.5,
+										repeat: Infinity,
+										delay: i * 0.2
+									}}
+								/>
+							))}
+						</motion.div>
+					</div>
+				</motion.div>
 			</div>
 		</section>
 	);
