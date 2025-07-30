@@ -43,10 +43,11 @@ export default function HeroSection() {
 				y: e.clientY
 			});
 
-			// Check if mouse is over a clickable element
-			const target = e.target as HTMLElement;
-			const isClickable = target.closest('a, button, [role="button"], [onclick]');
-			setIsOverClickable(!!isClickable);
+					// Check if mouse is over a hoverable element
+		const target = e.target as HTMLElement;
+		const isHoverable = target.closest('.hoverable, .group, [class*="group/"], a, button, [role="button"], [onclick]');
+		console.log('Mouse move detected! Target:', target.className, 'Is hoverable:', !!isHoverable);
+		setIsOverClickable(!!isHoverable);
 		};
 
 		// Add cursor style to body and all clickable elements
@@ -55,13 +56,16 @@ export default function HeroSection() {
 		// Override cursor for all clickable elements
 		const style = document.createElement('style');
 		style.textContent = `
-			a, button, [role="button"], [onclick] {
+			a, button, [role="button"], [onclick], .hoverable, .group, [class*="group/"] {
 				cursor: none !important;
 				pointer-events: auto !important;
 			}
-			a *, button *, [role="button"] *, [onclick] * {
+			a *, button *, [role="button"] *, [onclick] *, .hoverable *, .group *, [class*="group/"] * {
 				cursor: none !important;
 				pointer-events: auto !important;
+			}
+			* {
+				cursor: none !important;
 			}
 		`;
 		document.head.appendChild(style);
@@ -91,7 +95,7 @@ export default function HeroSection() {
 					initial={{ scale: 0 }}
 					animate={{ 
 						scale: 1,
-						filter: isOverClickable ? 'brightness(1.5) drop-shadow(0 0 10px rgba(255,255,255,0.8))' : 'brightness(1)'
+						filter: isOverClickable ? 'brightness(2) drop-shadow(0 0 20px rgba(255,255,255,1))' : 'brightness(1)'
 					}}
 					transition={{ duration: 0.2 }}
 				>
@@ -281,9 +285,9 @@ export default function HeroSection() {
 							className="mb-8 flex justify-center"
 						>
 							<motion.div 
-								className="relative w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-white shadow-2xl"
-								whileHover={{ scale: 1.05 }}
-								transition={{ duration: 0.3 }}
+								className="relative w-44 h-44 md:w-52 md:h-52 rounded-full overflow-hidden border-4 border-white shadow-2xl"
+								whileHover={{ scale: 1.15, y: -10 }}
+								transition={{ duration: 0.4, ease: "easeOut" }}
 							>
 								<Image
 									src="/profile.png"
@@ -345,20 +349,111 @@ export default function HeroSection() {
 							)}
 						</motion.div>
 
-						{/* Experience Stat */}
+						{/* Interactive Experience Button */}
 						<motion.div
 							initial={{ opacity: 0, y: 30 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.6, delay: 1.1 }}
 							className="flex justify-center mb-8"
 						>
-							<motion.div
-								whileHover={{ scale: 1.05, y: -5 }}
-								className="bg-white/60 backdrop-blur-sm rounded-2xl px-8 py-4 shadow-lg border border-white/20"
-							>
-								<div className="text-3xl font-bold text-blue-600">3+</div>
-								<div className="text-sm text-gray-600">Years Experience</div>
-							</motion.div>
+							<div className="relative group hoverable">
+								{/* Main Experience Button */}
+								<motion.div
+									className="bg-white/60 backdrop-blur-sm rounded-2xl px-8 py-4 shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300 cursor-pointer hoverable"
+									whileHover={{ scale: 1.02 }}
+									whileTap={{ scale: 0.98 }}
+								>
+									<div className="text-3xl font-bold text-blue-600">4+</div>
+									<div className="text-sm text-gray-600">Years Experience</div>
+								</motion.div>
+
+								{/* Hover Boxes */}
+								<div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+									<div className="flex gap-3">
+										{/* Babylon Microfarms Box with Detailed Hover */}
+										<div className="relative group/babylon hoverable">
+											<div className="bg-white/90 backdrop-blur-sm rounded-xl px-4 py-3 shadow-lg border border-white/30 cursor-pointer hover:shadow-xl transition-all duration-300 hoverable">
+												<div className="text-lg font-bold text-green-600">Babylon Microfarms</div>
+												<div className="text-xs text-gray-600">1 Year</div>
+											</div>
+
+											{/* Detailed Babylon Microfarms Information */}
+											<div className="absolute -top-40 -left-96 opacity-0 group-hover/babylon:opacity-100 transition-all duration-700 ease-out z-50 transform group-hover/babylon:scale-100 scale-0 origin-center">
+												{/* Header Box */}
+												<div className="bg-green-600 text-white rounded-t-xl px-6 py-4 shadow-lg mb-3 w-80 relative transform group-hover/babylon:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
+													<div className="text-lg font-bold">Junior Software Developer</div>
+													<div className="text-sm opacity-90">June 2021 – Aug. 2021</div>
+													<div className="text-xs opacity-75">Babylon Microfarms • 3409 Carlton St, Richmond, VA</div>
+												</div>
+
+												{/* Content Boxes */}
+												<div className="relative">
+													{/* Development Box */}
+													<div className="bg-white/95 backdrop-blur-sm rounded-xl px-6 py-4 shadow-lg border border-white/30 mb-3 relative w-80 transform group-hover/babylon:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
+														<div className="text-sm font-bold text-green-600 mb-2">Development</div>
+														<div className="text-xs text-gray-700 space-y-2">
+															<div>Designed and implemented automated customer notification system tailored to individual preferences, increasing user engagement</div>
+														</div>
+													</div>
+
+													{/* Testing Box */}
+													<div className="bg-white/95 backdrop-blur-sm rounded-xl px-6 py-4 shadow-lg border border-white/30 relative w-80 transform group-hover/babylon:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
+														<div className="text-sm font-bold text-green-600 mb-2">Testing</div>
+														<div className="text-xs text-gray-700 space-y-2">
+															<div>Learned the importance of Test-Driven Development</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										{/* Freddie Mac Box with Detailed Hover */}
+										<div className="relative group/freddie hoverable">
+											<div className="bg-white/90 backdrop-blur-sm rounded-xl px-4 py-3 shadow-lg border border-white/30 cursor-pointer hover:shadow-xl transition-all duration-300 hoverable">
+												<div className="text-lg font-bold text-blue-600">Freddie Mac</div>
+												<div className="text-xs text-gray-600">3 Years</div>
+											</div>
+
+											{/* Detailed Freddie Mac Information */}
+											<div className="absolute -top-80 left-80 opacity-0 group-hover/freddie:opacity-100 transition-all duration-700 ease-out z-50 transform group-hover/freddie:scale-100 scale-0 origin-center">
+												{/* Header Box */}
+												<div className="bg-blue-600 text-white rounded-t-xl px-6 py-4 shadow-lg mb-3 w-80 relative transform group-hover/freddie:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
+													<div className="text-lg font-bold">Full Stack Developer</div>
+													<div className="text-sm opacity-90">June 2022 – Present</div>
+													<div className="text-xs opacity-75">Freddie Mac • 8200 Jones Branch Drive</div>
+												</div>
+
+												{/* Content Boxes */}
+												<div className="relative">
+													{/* Development Box */}
+													<div className="bg-white/95 backdrop-blur-sm rounded-xl px-6 py-4 shadow-lg border border-white/30 mb-3 relative w-80 transform group-hover/freddie:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
+														<div className="text-sm font-bold text-blue-600 mb-2">Development</div>
+														<div className="text-xs text-gray-700 space-y-2">
+															<div>Contributed to the migration effort of monolithic systems to Spring Boot microservices architecture, enhancing modularity and scalability</div>
+														</div>
+													</div>
+
+													{/* Optimization Box */}
+													<div className="bg-white/95 backdrop-blur-sm rounded-xl px-6 py-4 shadow-lg border border-white/30 mb-3 relative w-80 transform group-hover/freddie:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
+														<div className="text-sm font-bold text-blue-600 mb-2">Optimization</div>
+														<div className="text-xs text-gray-700 space-y-2">
+															<div>Utilized Kibana data dashboards to identify microservice bottlenecks impacting system performance and improved response times by implementing thread-safe parallel processing with proper resource management and error handling</div>
+														</div>
+													</div>
+
+													{/* DevOps Box */}
+													<div className="bg-white/95 backdrop-blur-sm rounded-xl px-6 py-4 shadow-lg border border-white/30 relative w-80 transform group-hover/freddie:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
+														<div className="text-sm font-bold text-blue-600 mb-2">DevOps</div>
+														<div className="text-xs text-gray-700 space-y-2">
+															<div>Utilized Jenkins CI/CD pipelines to automate testing and deploy validated code to production</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</motion.div>
 					</motion.div>
 				</div>

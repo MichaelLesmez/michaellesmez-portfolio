@@ -117,12 +117,10 @@ export default function SkillsSection() {
 					{displayedSkills.map((skill, index) => (
 						<motion.div
 							key={`${skill.skill}-${skill.category}`}
-							initial={{ opacity: 0, scale: 0.8, y: 20 }}
+							initial={{ opacity: 0, y: 20 }}
 							animate={{ 
 								opacity: 1, 
-								scale: 1, 
 								y: 0,
-								rotate: [0, 5, -5, 0],
 							}}
 							transition={{ 
 								delay: index * 0.1,
@@ -130,12 +128,7 @@ export default function SkillsSection() {
 								type: "spring",
 								stiffness: 100
 							}}
-							whileHover={{ 
-								scale: 1.05,
-								rotate: [0, 2, -2, 0],
-								transition: { duration: 0.2 }
-							}}
-							className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
+							className="bg-white rounded-xl p-6 shadow-lg border border-gray-100"
 						>
 							<div className="text-center">
 								<h3 className="font-semibold text-gray-900 text-lg">{skill.skill}</h3>
