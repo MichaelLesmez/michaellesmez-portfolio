@@ -17,14 +17,7 @@ export default function HeroSection() {
 		'AWS Cloud Practitioner'
 	];
 
-	// Fixed particles to avoid hydration issues
-	const particles = Array.from({ length: 20 }, (_, i) => ({
-		id: i,
-		x: (i * 17) % 100, // Deterministic positioning
-		y: (i * 23) % 100,
-		size: (i % 3) + 2,
-		duration: (i % 5) + 6,
-	}));
+
 
 	// Handle mounting to avoid hydration issues
 	useEffect(() => {
@@ -66,6 +59,30 @@ export default function HeroSection() {
 			}
 			* {
 				cursor: none !important;
+			}
+			.animated-gradient {
+				background: linear-gradient(90deg, #3b82f6, #8b5cf6, #3b82f6);
+				background-size: 200% 100%;
+				animation: gradient 8s ease infinite;
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				background-clip: text;
+			}
+			.animated-gradient-reverse {
+				background: linear-gradient(90deg, #8b5cf6, #3b82f6, #8b5cf6);
+				background-size: 200% 100%;
+				animation: gradient 8s ease infinite;
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				background-clip: text;
+			}
+			@keyframes gradient {
+				0% {
+					background-position: 0% 0%;
+				}
+				100% {
+					background-position: 200% 0%;
+				}
 			}
 		`;
 		document.head.appendChild(style);
@@ -142,29 +159,7 @@ export default function HeroSection() {
 						}}
 					/>
 					
-					{/* Accretion disk particles */}
-					{Array.from({ length: 6 }).map((_, i) => (
-						<motion.div
-							key={i}
-							className="absolute w-0.5 h-0.5 rounded-full"
-							style={{
-								left: '50%',
-								top: '50%',
-								transformOrigin: `${15 + i * 3}px center`,
-								backgroundColor: isOverClickable ? 'rgba(255, 165, 0, 0.9)' : 'rgba(251, 146, 60, 0.7)'
-							}}
-							animate={{
-								rotate: 360,
-								scale: [0.5, 1, 0.5],
-								opacity: isOverClickable ? [0.9, 0.4, 0.9] : [0.7, 0.2, 0.7]
-							}}
-							transition={{
-								rotate: { duration: 0.4 + i * 0.1, repeat: Infinity, ease: "linear" },
-								scale: { duration: 1 + i * 0.2, repeat: Infinity },
-								opacity: { duration: 1 + i * 0.1, repeat: Infinity }
-							}}
-						/>
-					))}
+
 				</motion.div>
 			)}
 
@@ -174,29 +169,7 @@ export default function HeroSection() {
 					<div className="absolute inset-0 bg-gradient-to-r from-blue-100/30 to-purple-100/30" />
 				</div>
 
-				{/* Floating Particles - only render after mount */}
-				{mounted && particles.map((particle) => (
-					<motion.div
-						key={particle.id}
-						className="absolute w-2 h-2 bg-blue-400/20 rounded-full"
-						style={{
-							left: `${particle.x}%`,
-							top: `${particle.y}%`,
-							width: `${particle.size}px`,
-							height: `${particle.size}px`,
-						}}
-						animate={{
-							y: [0, -30, 0],
-							x: [0, particle.id % 2 === 0 ? 10 : -10, 0],
-							opacity: [0.3, 0.8, 0.3],
-						}}
-						transition={{
-							duration: particle.duration,
-							repeat: Infinity,
-							ease: "easeInOut",
-						}}
-					/>
-				))}
+
 
 				{/* Grid Pattern */}
 				<div className="absolute inset-0">
@@ -307,7 +280,7 @@ export default function HeroSection() {
 							transition={{ duration: 0.5, delay: 0.4 }}
 						>
 							<motion.span
-								className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"
+								className="inline-block bg-clip-text text-transparent animated-gradient"
 								initial={{ y: 50, opacity: 0 }}
 								animate={{ y: 0, opacity: 1 }}
 								transition={{ duration: 0.3, delay: 0.4 }}
@@ -315,7 +288,7 @@ export default function HeroSection() {
 								Michael
 							</motion.span>{' '}
 							<motion.span
-								className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600"
+								className="inline-block bg-clip-text text-transparent animated-gradient-reverse"
 								initial={{ y: 50, opacity: 0 }}
 								animate={{ y: 0, opacity: 1 }}
 								transition={{ duration: 0.3, delay: 0.5 }}
@@ -367,14 +340,24 @@ export default function HeroSection() {
 									<div className="text-sm text-gray-600">Years Experience</div>
 								</motion.div>
 
-								{/* Hover Boxes */}
-								<div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+								{/* Always Visible Experience Boxes */}
+								<div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-4">
 									<div className="flex gap-3">
 										{/* Babylon Microfarms Box with Detailed Hover */}
 										<div className="relative group/babylon hoverable">
-											<div className="bg-white/90 backdrop-blur-sm rounded-xl px-4 py-3 shadow-lg border border-white/30 cursor-pointer hover:shadow-xl transition-all duration-300 hoverable">
+											<div className="bg-white/90 backdrop-blur-sm rounded-xl px-4 py-3 shadow-lg border border-white/30 cursor-pointer hover:shadow-xl transition-all duration-300 hoverable group-hover:scale-105 hover:scale-105 relative overflow-hidden">
 												<div className="text-lg font-bold text-green-600">Babylon Microfarms</div>
 												<div className="text-xs text-gray-600">1 Year</div>
+												
+												{/* Revolving highlight line */}
+												<div className="absolute inset-0 opacity-100 group-hover/babylon:opacity-0 transition-opacity duration-300">
+													<div className="absolute inset-0 rounded-xl">
+														<div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-green-400 to-transparent animate-pulse"></div>
+														<div className="absolute top-0 right-0 w-0.5 h-full bg-gradient-to-b from-transparent via-green-400 to-transparent animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+														<div className="absolute bottom-0 right-0 w-full h-0.5 bg-gradient-to-r from-transparent via-green-400 to-transparent animate-pulse" style={{ animationDelay: '1s' }}></div>
+														<div className="absolute bottom-0 left-0 w-0.5 h-full bg-gradient-to-b from-transparent via-green-400 to-transparent animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+													</div>
+												</div>
 											</div>
 
 											{/* Detailed Babylon Microfarms Information */}
@@ -409,9 +392,19 @@ export default function HeroSection() {
 
 										{/* Freddie Mac Box with Detailed Hover */}
 										<div className="relative group/freddie hoverable">
-											<div className="bg-white/90 backdrop-blur-sm rounded-xl px-4 py-3 shadow-lg border border-white/30 cursor-pointer hover:shadow-xl transition-all duration-300 hoverable">
+											<div className="bg-white/90 backdrop-blur-sm rounded-xl px-4 py-3 shadow-lg border border-white/30 cursor-pointer hover:shadow-xl transition-all duration-300 hoverable group-hover:scale-105 hover:scale-105 relative overflow-hidden">
 												<div className="text-lg font-bold text-blue-600">Freddie Mac</div>
 												<div className="text-xs text-gray-600">3 Years</div>
+												
+												{/* Revolving highlight line */}
+												<div className="absolute inset-0 opacity-100 group-hover/freddie:opacity-0 transition-opacity duration-300">
+													<div className="absolute inset-0 rounded-xl">
+														<div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-blue-400 to-transparent animate-pulse"></div>
+														<div className="absolute top-0 right-0 w-0.5 h-full bg-gradient-to-b from-transparent via-blue-400 to-transparent animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+														<div className="absolute bottom-0 right-0 w-full h-0.5 bg-gradient-to-r from-transparent via-blue-400 to-transparent animate-pulse" style={{ animationDelay: '1s' }}></div>
+														<div className="absolute bottom-0 left-0 w-0.5 h-full bg-gradient-to-b from-transparent via-blue-400 to-transparent animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+													</div>
+												</div>
 											</div>
 
 											{/* Detailed Freddie Mac Information */}
