@@ -163,7 +163,7 @@ export default function HeroSection() {
 				</motion.div>
 			)}
 
-			<section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+			<section className="relative min-h-[100vh] sm:min-h-screen flex items-center justify-center overflow-hidden py-8 sm:py-0">
 				{/* Animated Background */}
 				<div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
 					<div className="absolute inset-0 bg-gradient-to-r from-blue-100/30 to-purple-100/30" />
@@ -176,12 +176,12 @@ export default function HeroSection() {
 					<div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-20 [mask-image:radial-gradient(ellipse_at_center,white,transparent)]" />
 				</div>
 
-				{/* AWS Certifications */}
+				{/* AWS Certifications - Responsive positioning */}
 				<motion.a
 					href="https://www.credly.com/badges/9474819f-563d-4903-b9bc-94f5ef5979ad"
 					target="_blank"
 					rel="noopener noreferrer"
-					className="absolute top-20 right-10 z-20"
+					className="absolute top-4 sm:top-20 right-2 sm:right-10 z-20"
 					animate={{
 						y: [0, -15, 0],
 						rotate: [0, 2, -2, 0],
@@ -199,7 +199,7 @@ export default function HeroSection() {
 					}}
 					whileTap={{ scale: 0.95 }}
 				>
-					<div className="relative w-40 h-40 md:w-48 md:h-48 flex items-center justify-center">
+					<div className="relative w-20 h-20 sm:w-40 sm:h-40 md:w-48 md:h-48 flex items-center justify-center">
 						<Image
 							src="/AWSCloudPractitioner.png"
 							alt="AWS Cloud Practitioner Certification"
@@ -215,7 +215,7 @@ export default function HeroSection() {
 					href="#"
 					target="_blank"
 					rel="noopener noreferrer"
-					className="absolute top-8 left-0 z-20"
+					className="absolute top-2 sm:top-8 left-0 z-20"
 					animate={{
 						y: [0, -15, 0],
 						rotate: [0, -2, 2, 0],
@@ -238,7 +238,7 @@ export default function HeroSection() {
 						alt="AWS AI Practitioner Certification"
 						width={280}
 						height={280}
-						className="object-contain drop-shadow-xl"
+						className="object-contain drop-shadow-xl w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 lg:w-72 lg:h-72"
 						priority
 					/>
 				</motion.a>
@@ -255,10 +255,10 @@ export default function HeroSection() {
 							initial={{ opacity: 0, scale: 0.5, rotate: -180 }} 
 							animate={{ opacity: 1, scale: 1, rotate: 0 }} 
 							transition={{ duration: 1.2, delay: 0.3, type: "spring", stiffness: 200 }}
-							className="mb-8 flex justify-center"
+							className="mb-4 sm:mb-8 flex justify-center"
 						>
 							<motion.div 
-								className="relative w-44 h-44 md:w-52 md:h-52 rounded-full overflow-hidden border-4 border-white shadow-2xl"
+								className="relative w-32 h-32 sm:w-44 sm:h-44 md:w-52 md:h-52 rounded-full overflow-hidden border-4 border-white shadow-2xl"
 								whileHover={{ scale: 1.15, y: -10 }}
 								transition={{ duration: 0.4, ease: "easeOut" }}
 							>
@@ -274,7 +274,7 @@ export default function HeroSection() {
 						
 						{/* Name with Staggered Animation */}
 						<motion.h1 
-							className="text-5xl md:text-7xl font-bold mb-6"
+							className="text-3xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6"
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
 							transition={{ duration: 0.5, delay: 0.4 }}
@@ -302,7 +302,7 @@ export default function HeroSection() {
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.6, delay: 0.9 }}
-							className="mb-8 h-16 flex items-center justify-center"
+							className="mb-4 sm:mb-8 h-12 sm:h-16 flex items-center justify-center"
 						>
 							{mounted ? (
 								<motion.p
@@ -311,12 +311,12 @@ export default function HeroSection() {
 									animate={{ opacity: 1, y: 0, rotateX: 0 }}
 									exit={{ opacity: 0, y: -20, rotateX: 90 }}
 									transition={{ duration: 0.5 }}
-									className="text-xl md:text-2xl text-gray-700 font-medium"
+									className="text-lg sm:text-xl md:text-2xl text-gray-700 font-medium"
 								>
 									{roles[currentRole]}
 								</motion.p>
 							) : (
-								<p className="text-xl md:text-2xl text-gray-700 font-medium">
+								<p className="text-lg sm:text-xl md:text-2xl text-gray-700 font-medium">
 									{roles[0]}
 								</p>
 							)}
@@ -327,26 +327,26 @@ export default function HeroSection() {
 							initial={{ opacity: 0, y: 30 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.6, delay: 1.1 }}
-							className="flex justify-center mb-8"
+							className="flex justify-center mb-4 sm:mb-8"
 						>
 							<div className="relative group hoverable">
 								{/* Main Experience Button */}
 								<motion.div
-									className="bg-white/60 backdrop-blur-sm rounded-2xl px-8 py-4 shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300 cursor-pointer hoverable"
+									className="bg-white/60 backdrop-blur-sm rounded-2xl px-6 sm:px-8 py-3 sm:py-4 shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300 cursor-pointer hoverable"
 									whileHover={{ scale: 1.02 }}
 									whileTap={{ scale: 0.98 }}
 								>
-									<div className="text-3xl font-bold text-blue-600">4+</div>
-									<div className="text-sm text-gray-600">Years Experience</div>
+									<div className="text-2xl sm:text-3xl font-bold text-blue-600">4+</div>
+									<div className="text-xs sm:text-sm text-gray-600">Years Experience</div>
 								</motion.div>
 
-								{/* Always Visible Experience Boxes */}
-								<div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-4">
-									<div className="flex gap-3">
+								{/* Always Visible Experience Boxes - Responsive layout */}
+								<div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 sm:mt-4">
+									<div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
 										{/* Babylon Microfarms Box with Detailed Hover */}
 										<div className="relative group/babylon hoverable">
-											<div className="bg-white/90 backdrop-blur-sm rounded-xl px-4 py-3 shadow-lg border border-white/30 cursor-pointer hover:shadow-xl transition-all duration-300 hoverable group-hover:scale-105 hover:scale-105 relative overflow-hidden">
-												<div className="text-lg font-bold text-green-600">Babylon Microfarms</div>
+											<div className="bg-white/90 backdrop-blur-sm rounded-xl px-3 sm:px-4 py-2 sm:py-3 shadow-lg border border-white/30 cursor-pointer hover:shadow-xl transition-all duration-300 hoverable group-hover:scale-105 hover:scale-105 relative overflow-hidden">
+												<div className="text-sm sm:text-lg font-bold text-green-600">Babylon Microfarms</div>
 												<div className="text-xs text-gray-600">1 Year</div>
 												
 												{/* Revolving highlight line */}
@@ -360,28 +360,28 @@ export default function HeroSection() {
 												</div>
 											</div>
 
-											{/* Detailed Babylon Microfarms Information */}
-											<div className="absolute -top-40 -left-96 opacity-0 group-hover/babylon:opacity-100 transition-all duration-700 ease-out z-50 transform group-hover/babylon:scale-100 scale-0 origin-center">
+											{/* Detailed Babylon Microfarms Information - Responsive positioning */}
+											<div className="absolute -top-32 sm:-top-40 -left-48 sm:-left-96 opacity-0 group-hover/babylon:opacity-100 transition-all duration-700 ease-out z-50 transform group-hover/babylon:scale-100 scale-0 origin-center">
 												{/* Header Box */}
-												<div className="bg-green-600 text-white rounded-t-xl px-6 py-4 shadow-lg mb-3 w-80 relative transform group-hover/babylon:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
-													<div className="text-lg font-bold">Junior Software Developer</div>
-													<div className="text-sm opacity-90">June 2021 – Aug. 2021</div>
+												<div className="bg-green-600 text-white rounded-t-xl px-4 sm:px-6 py-3 sm:py-4 shadow-lg mb-3 w-64 sm:w-80 relative transform group-hover/babylon:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
+													<div className="text-base sm:text-lg font-bold">Junior Software Developer</div>
+													<div className="text-xs sm:text-sm opacity-90">June 2021 – Aug. 2021</div>
 													<div className="text-xs opacity-75">Babylon Microfarms • 3409 Carlton St, Richmond, VA</div>
 												</div>
 
 												{/* Content Boxes */}
 												<div className="relative">
 													{/* Development Box */}
-													<div className="bg-white/95 backdrop-blur-sm rounded-xl px-6 py-4 shadow-lg border border-white/30 mb-3 relative w-80 transform group-hover/babylon:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
-														<div className="text-sm font-bold text-green-600 mb-2">Development</div>
+													<div className="bg-white/95 backdrop-blur-sm rounded-xl px-4 sm:px-6 py-3 sm:py-4 shadow-lg border border-white/30 mb-3 relative w-64 sm:w-80 transform group-hover/babylon:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
+														<div className="text-xs sm:text-sm font-bold text-green-600 mb-2">Development</div>
 														<div className="text-xs text-gray-700 space-y-2">
 															<div>Designed and implemented automated customer notification system tailored to individual preferences, increasing user engagement</div>
 														</div>
 													</div>
 
 													{/* Testing Box */}
-													<div className="bg-white/95 backdrop-blur-sm rounded-xl px-6 py-4 shadow-lg border border-white/30 relative w-80 transform group-hover/babylon:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
-														<div className="text-sm font-bold text-green-600 mb-2">Testing</div>
+													<div className="bg-white/95 backdrop-blur-sm rounded-xl px-4 sm:px-6 py-3 sm:py-4 shadow-lg border border-white/30 relative w-64 sm:w-80 transform group-hover/babylon:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
+														<div className="text-xs sm:text-sm font-bold text-green-600 mb-2">Testing</div>
 														<div className="text-xs text-gray-700 space-y-2">
 															<div>Learned the importance of Test-Driven Development</div>
 														</div>
@@ -392,8 +392,8 @@ export default function HeroSection() {
 
 										{/* Freddie Mac Box with Detailed Hover */}
 										<div className="relative group/freddie hoverable">
-											<div className="bg-white/90 backdrop-blur-sm rounded-xl px-4 py-3 shadow-lg border border-white/30 cursor-pointer hover:shadow-xl transition-all duration-300 hoverable group-hover:scale-105 hover:scale-105 relative overflow-hidden">
-												<div className="text-lg font-bold text-blue-600">Freddie Mac</div>
+											<div className="bg-white/90 backdrop-blur-sm rounded-xl px-3 sm:px-4 py-2 sm:py-3 shadow-lg border border-white/30 cursor-pointer hover:shadow-xl transition-all duration-300 hoverable group-hover:scale-105 hover:scale-105 relative overflow-hidden">
+												<div className="text-sm sm:text-lg font-bold text-blue-600">Freddie Mac</div>
 												<div className="text-xs text-gray-600">3 Years</div>
 												
 												{/* Revolving highlight line */}
@@ -407,36 +407,36 @@ export default function HeroSection() {
 												</div>
 											</div>
 
-											{/* Detailed Freddie Mac Information */}
-											<div className="absolute -top-80 left-80 opacity-0 group-hover/freddie:opacity-100 transition-all duration-700 ease-out z-50 transform group-hover/freddie:scale-100 scale-0 origin-center">
+											{/* Detailed Freddie Mac Information - Responsive positioning */}
+											<div className="absolute -top-64 sm:-top-80 left-32 sm:left-80 opacity-0 group-hover/freddie:opacity-100 transition-all duration-700 ease-out z-50 transform group-hover/freddie:scale-100 scale-0 origin-center">
 												{/* Header Box */}
-												<div className="bg-blue-600 text-white rounded-t-xl px-6 py-4 shadow-lg mb-3 w-80 relative transform group-hover/freddie:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
-													<div className="text-lg font-bold">Full Stack Developer</div>
-													<div className="text-sm opacity-90">June 2022 – Present</div>
+												<div className="bg-blue-600 text-white rounded-t-xl px-4 sm:px-6 py-3 sm:py-4 shadow-lg mb-3 w-64 sm:w-80 relative transform group-hover/freddie:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
+													<div className="text-base sm:text-lg font-bold">Full Stack Developer</div>
+													<div className="text-xs sm:text-sm opacity-90">June 2022 – Present</div>
 													<div className="text-xs opacity-75">Freddie Mac • 8200 Jones Branch Drive</div>
 												</div>
 
 												{/* Content Boxes */}
 												<div className="relative">
 													{/* Development Box */}
-													<div className="bg-white/95 backdrop-blur-sm rounded-xl px-6 py-4 shadow-lg border border-white/30 mb-3 relative w-80 transform group-hover/freddie:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
-														<div className="text-sm font-bold text-blue-600 mb-2">Development</div>
+													<div className="bg-white/95 backdrop-blur-sm rounded-xl px-4 sm:px-6 py-3 sm:py-4 shadow-lg border border-white/30 mb-3 relative w-64 sm:w-80 transform group-hover/freddie:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
+														<div className="text-xs sm:text-sm font-bold text-blue-600 mb-2">Development</div>
 														<div className="text-xs text-gray-700 space-y-2">
 															<div>Contributed to the migration effort of monolithic systems to Spring Boot microservices architecture, enhancing modularity and scalability</div>
 														</div>
 													</div>
 
 													{/* Optimization Box */}
-													<div className="bg-white/95 backdrop-blur-sm rounded-xl px-6 py-4 shadow-lg border border-white/30 mb-3 relative w-80 transform group-hover/freddie:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
-														<div className="text-sm font-bold text-blue-600 mb-2">Optimization</div>
+													<div className="bg-white/95 backdrop-blur-sm rounded-xl px-4 sm:px-6 py-3 sm:py-4 shadow-lg border border-white/30 mb-3 relative w-64 sm:w-80 transform group-hover/freddie:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
+														<div className="text-xs sm:text-sm font-bold text-blue-600 mb-2">Optimization</div>
 														<div className="text-xs text-gray-700 space-y-2">
 															<div>Utilized Kibana data dashboards to identify microservice bottlenecks impacting system performance and improved response times by implementing thread-safe parallel processing with proper resource management and error handling</div>
 														</div>
 													</div>
 
 													{/* DevOps Box */}
-													<div className="bg-white/95 backdrop-blur-sm rounded-xl px-6 py-4 shadow-lg border border-white/30 relative w-80 transform group-hover/freddie:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
-														<div className="text-sm font-bold text-blue-600 mb-2">DevOps</div>
+													<div className="bg-white/95 backdrop-blur-sm rounded-xl px-4 sm:px-6 py-3 sm:py-4 shadow-lg border border-white/30 relative w-64 sm:w-80 transform group-hover/freddie:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
+														<div className="text-xs sm:text-sm font-bold text-blue-600 mb-2">DevOps</div>
 														<div className="text-xs text-gray-700 space-y-2">
 															<div>Utilized Jenkins CI/CD pipelines to automate testing and deploy validated code to production</div>
 														</div>
@@ -453,7 +453,7 @@ export default function HeroSection() {
 
 				{/* Enhanced Scroll Indicator */}
 				<motion.div 
-					className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+					className="absolute bottom-4 sm:bottom-10 left-1/2 transform -translate-x-1/2"
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					transition={{ delay: 2 }}
@@ -463,9 +463,9 @@ export default function HeroSection() {
 						transition={{ duration: 2, repeat: Infinity }} 
 						className="flex flex-col items-center text-gray-500"
 					>
-						<span className="text-sm mb-2 font-medium">Scroll to explore</span>
+						<span className="text-xs sm:text-sm mb-2 font-medium">Scroll to explore</span>
 						<motion.svg
-							className="w-6 h-6"
+							className="w-5 h-5 sm:w-6 sm:h-6"
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"

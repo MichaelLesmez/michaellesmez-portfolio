@@ -71,13 +71,13 @@ export default function SkillsSection() {
 	}, []);
 
 	return (
-		<section className="py-20 px-4 bg-gray-100">
+		<section className="py-12 sm:py-20 px-4 bg-gray-100">
 			<div className="max-w-6xl mx-auto">
 				<motion.h2
 					initial={{ opacity: 0 }}
 					whileInView={{ opacity: 1 }}
 					viewport={{ once: true }}
-					className="text-3xl font-bold mb-12 text-center text-gray-900"
+					className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 text-center text-gray-900"
 				>
 					Technical Skills
 				</motion.h2>
@@ -87,7 +87,7 @@ export default function SkillsSection() {
 					initial={{ opacity: 0, y: 20 }}
 					whileInView={{ opacity: 1, y: 0 }}
 					viewport={{ once: true }}
-					className="flex flex-wrap justify-center gap-3 mb-12"
+					className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-12"
 				>
 					{categories.map((category) => (
 						<motion.button
@@ -95,7 +95,7 @@ export default function SkillsSection() {
 							whileHover={{ scale: 1.05 }}
 							whileTap={{ scale: 0.95 }}
 							onClick={() => handleCategoryClick(category)}
-							className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+							className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium transition-all duration-300 text-sm sm:text-base ${
 								selectedCategory === category
 									? 'bg-blue-600 text-white shadow-lg'
 									: 'bg-white text-gray-700 hover:bg-blue-50 border border-gray-200'
@@ -112,7 +112,7 @@ export default function SkillsSection() {
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					transition={{ duration: 0.5 }}
-					className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+					className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
 				>
 					{displayedSkills.map((skill, index) => (
 						<motion.div
@@ -128,10 +128,10 @@ export default function SkillsSection() {
 								type: "spring",
 								stiffness: 100
 							}}
-							className="bg-white rounded-xl p-6 shadow-lg border border-gray-100"
+							className="bg-white rounded-xl p-4 sm:p-6 shadow-lg border border-gray-100"
 						>
 							<div className="text-center">
-								<h3 className="font-semibold text-gray-900 text-lg">{skill.skill}</h3>
+								<h3 className="font-semibold text-gray-900 text-base sm:text-lg">{skill.skill}</h3>
 							</div>
 						</motion.div>
 					))}
