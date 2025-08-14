@@ -178,7 +178,7 @@ export default function HeroSection() {
 
 				{/* AWS Certifications - Responsive positioning */}
 				<motion.a
-					href="https://www.credly.com/badges/9474819f-563d-4903-b9bc-94f5ef5979ad"
+					href="https://www.credly.com/badges/2e521c3d-07b9-4165-bd32-394a8925191d/public_url"
 					target="_blank"
 					rel="noopener noreferrer"
 					className="absolute top-4 sm:top-20 right-2 sm:right-10 z-20"
@@ -212,7 +212,7 @@ export default function HeroSection() {
 				</motion.a>
 
 				<motion.a
-					href="#"
+					href="https://www.credly.com/badges/2e521c3d-07b9-4165-bd32-394a8925191d/public_url"
 					target="_blank"
 					rel="noopener noreferrer"
 					className="absolute top-2 sm:top-8 left-0 z-20"
