@@ -233,14 +233,16 @@ export default function HeroSection() {
 					}}
 					whileTap={{ scale: 0.95 }}
 				>
-					<Image
-						src="/AWSAIPractitioner.png"
-						alt="AWS AI Practitioner Certification"
-						width={280}
-						height={280}
-						className="object-contain drop-shadow-xl w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 lg:w-72 lg:h-72"
-						priority
-					/>
+					<div className="relative w-20 h-20 sm:w-40 sm:h-40 md:w-48 md:h-48 flex items-center justify-center">
+						<Image
+							src="/AWSAIPractitioner.png"
+							alt="AWS AI Practitioner Certification"
+							width={160}
+							height={160}
+							className="object-contain drop-shadow-xl"
+							priority
+						/>
+					</div>
 				</motion.a>
 
 				{/* Main Content */}
