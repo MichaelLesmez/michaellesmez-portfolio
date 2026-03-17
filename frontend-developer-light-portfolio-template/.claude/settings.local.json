@@ -4,7 +4,11 @@
       "Bash(npm run:*)",
       "Bash(npx tsc:*)",
       "Bash(npx kill-port:*)",
-      "Bash(rm -rf .next)"
+      "Bash(rm -rf .next)",
+      "mcp__claude_ai_Vercel__list_teams",
+      "mcp__claude_ai_Vercel__list_deployments",
+      "mcp__claude_ai_Vercel__get_deployment_build_logs",
+      "Bash(npm install:*)"
     ]
   }
 }
