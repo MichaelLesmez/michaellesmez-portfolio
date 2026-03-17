@@ -467,32 +467,29 @@ export default function HeroSection() {
 				)}
 			</AnimatePresence>
 
-			{/* Enhanced Scroll Indicator — only on screens tall enough to avoid overlap */}
+			{/* Scroll Arrows — left and right, desktop only */}
 				<motion.div
-					className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 hidden lg:block"
+					className="absolute bottom-16 left-1/4 z-20 hidden lg:block"
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					transition={{ delay: 2 }}
 				>
-					<motion.div 
-						animate={{ y: [0, 10, 0] }} 
-						transition={{ duration: 2, repeat: Infinity }} 
-						className="flex flex-col items-center text-gray-500"
-					>
-						<span className="text-xs sm:text-sm mb-2 font-medium">Scroll to explore</span>
-						<motion.svg
-							className="w-5 h-5 sm:w-6 sm:h-6"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-							whileHover={{ scale: 1.2 }}
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth="2"
-								d="M19 14l-7 7m0 0l-7-7m7 7V3"
-							/>
+					<motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 2, repeat: Infinity }} className="flex items-center justify-center text-gray-500">
+						<motion.svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" whileHover={{ scale: 1.2 }}>
+							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+						</motion.svg>
+					</motion.div>
+				</motion.div>
+
+				<motion.div
+					className="absolute bottom-16 right-1/4 z-20 hidden lg:block"
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ delay: 2 }}
+				>
+					<motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 2, repeat: Infinity, delay: 0.3 }} className="flex items-center justify-center text-gray-500">
+						<motion.svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" whileHover={{ scale: 1.2 }}>
+							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
 						</motion.svg>
 					</motion.div>
 				</motion.div>
