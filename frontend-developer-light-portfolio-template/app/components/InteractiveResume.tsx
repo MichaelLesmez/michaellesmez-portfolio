@@ -98,14 +98,16 @@ const resumeData = {
 		{
 			name: 'AWS Cloud Practitioner',
 			issuer: 'Amazon Web Services',
-			date: '2023',
+			date: '2025',
 			description: 'Foundational cloud computing and AWS services knowledge',
+			link: 'https://www.credly.com/earner/earned/badge/9474819f-563d-4903-b9bc-94f5ef5979ad',
 		},
 		{
 			name: 'AWS AI Practitioner',
 			issuer: 'Amazon Web Services',
-			date: '2023',
+			date: '2025',
 			description: 'AI/ML workflows and AWS artificial intelligence services',
+			link: 'https://www.credly.com/badges/2e521c3d-07b9-4165-bd32-394a8925191d/public_url',
 		},
 	],
 };
@@ -278,7 +280,7 @@ export default function InteractiveResume() {
 							<div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
 								<div>
 									<h3 className="text-xl font-bold text-gray-900">{cert.name}</h3>
-									<p className="text-lg text-blue-600 font-semibold">{cert.issuer}</p>
+									<a href={cert.link} target="_blank" rel="noopener noreferrer" className="text-lg text-blue-600 font-semibold hover:underline">{cert.issuer}</a>
 								</div>
 								<span className="text-sm text-gray-500 mt-1 sm:mt-0">{cert.date}</span>
 							</div>
