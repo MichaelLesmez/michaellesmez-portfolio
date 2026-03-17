@@ -51,14 +51,14 @@ const skillCategories = {
 
 const categories = Object.keys(skillCategories);
 
+// Derived from module-level constants — safe to compute outside component
+const allSkills = Object.entries(skillCategories).flatMap(([category, skills]) =>
+	skills.map(skill => ({ ...skill, category }))
+);
+
 export default function SkillsSection() {
 	const [selectedCategory, setSelectedCategory] = useState(categories[0]);
 	const [displayedSkills, setDisplayedSkills] = useState<Array<{skill: string, category: string}>>([]);
-
-	// Flatten all skills with their categories
-	const allSkills = Object.entries(skillCategories).flatMap(([category, skills]) =>
-		skills.map(skill => ({ ...skill, category }))
-	);
 
 	const handleCategoryClick = (category: string) => {
 		setSelectedCategory(category);

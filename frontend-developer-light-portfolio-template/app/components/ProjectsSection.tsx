@@ -79,7 +79,7 @@ export default function ProjectsSection() {
 							transition={{ delay: 1.0 }}
 							className="flex flex-wrap justify-center gap-2 sm:gap-3"
 						>
-							{['C#', 'Unity', '3D Game Development', 'Game Design'].map((tech, index) => (
+							{['C#', 'Unity', '3D Game Development', 'Game Design'].map((tech) => (
 								<span
 									key={tech}
 									className="px-3 py-1 sm:px-4 sm:py-2 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 text-xs sm:text-sm font-medium rounded-full border border-blue-200"
