@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useState } from 'react';
+import InteractiveResume from './InteractiveResume';
 
 export default function ContactSection() {
 	const [isResumeOpen, setIsResumeOpen] = useState(false);
@@ -47,15 +48,8 @@ export default function ContactSection() {
 						transition={{ duration: 0.3 }}
 						className="overflow-hidden"
 					>
-						<div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 mt-4">
-							<Image
-								src="/resume.png"
-								alt="Michael Lesmez Resume"
-								width={800}
-								height={1000}
-								className="w-full h-auto rounded-lg"
-								priority
-							/>
+						<div className="mt-4">
+							<InteractiveResume />
 						</div>
 					</motion.div>
 				</motion.div>

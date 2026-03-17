@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
@@ -9,6 +9,8 @@ export default function HeroSection() {
 	const [mounted, setMounted] = useState(false);
 	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 	const [isOverClickable, setIsOverClickable] = useState(false);
+	const [isHoverDevice, setIsHoverDevice] = useState(false);
+	const [hoveredCard, setHoveredCard] = useState<'babylon' | 'freddie' | null>(null);
 	
 	const roles = [
 		'Full Stack Developer',
@@ -22,25 +24,27 @@ export default function HeroSection() {
 	// Handle mounting to avoid hydration issues
 	useEffect(() => {
 		setMounted(true);
+		setIsHoverDevice(window.matchMedia('(hover: hover) and (pointer: fine)').matches);
 		const interval = setInterval(() => {
 			setCurrentRole((prev) => (prev + 1) % roles.length);
 		}, 3000);
 		return () => clearInterval(interval);
 	}, [roles.length]);
 
-	// Global mouse tracking for black hole cursor
+	// Global mouse tracking for black hole cursor (desktop only)
 	useEffect(() => {
+		const isHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+		if (!isHover) return;
+
 		const handleMouseMove = (e: MouseEvent) => {
 			setMousePosition({
 				x: e.clientX,
 				y: e.clientY
 			});
 
-					// Check if mouse is over a hoverable element
-		const target = e.target as HTMLElement;
-		const isHoverable = target.closest('.hoverable, .group, [class*="group/"], a, button, [role="button"], [onclick]');
-		console.log('Mouse move detected! Target:', target.className, 'Is hoverable:', !!isHoverable);
-		setIsOverClickable(!!isHoverable);
+			const target = e.target as HTMLElement;
+			const isHoverable = target.closest('.hoverable, .group, [class*="group/"], a, button, [role="button"], [onclick]');
+			setIsOverClickable(!!isHoverable);
 		};
 
 		// Add cursor style to body and all clickable elements
@@ -102,7 +106,7 @@ export default function HeroSection() {
 	return (
 		<>
 			{/* Global Black Hole Cursor */}
-			{mounted && (
+			{mounted && isHoverDevice && (
 				<motion.div
 					className="fixed pointer-events-none z-[9999]"
 					style={{
@@ -163,7 +167,7 @@ export default function HeroSection() {
 				</motion.div>
 			)}
 
-			<section className="relative min-h-[100vh] sm:min-h-screen flex items-center justify-center overflow-hidden py-8 sm:py-0">
+			<section className="relative min-h-[110vh] flex items-center justify-center py-20">
 				{/* Animated Background */}
 				<div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
 					<div className="absolute inset-0 bg-gradient-to-r from-blue-100/30 to-purple-100/30" />
@@ -265,7 +269,7 @@ export default function HeroSection() {
 								transition={{ duration: 0.4, ease: "easeOut" }}
 							>
 								<Image
-									src="/profile.png"
+									src="/profile.jpg"
 									alt="Michael Lesmez"
 									fill
 									className="object-cover"
@@ -338,20 +342,29 @@ export default function HeroSection() {
 									whileHover={{ scale: 1.02 }}
 									whileTap={{ scale: 0.98 }}
 								>
-									<div className="text-2xl sm:text-3xl font-bold text-blue-600">4+</div>
+									<div className="text-2xl sm:text-3xl font-bold text-blue-600">3+</div>
 									<div className="text-xs sm:text-sm text-gray-600">Years Experience</div>
 								</motion.div>
 
 								{/* Always Visible Experience Boxes - Responsive layout */}
 								<div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 sm:mt-4">
 									<div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-										{/* Babylon Microfarms Box with Detailed Hover */}
-										<div className="relative group/babylon hoverable">
+										{/* Babylon Microfarms Box */}
+										<div
+											className="relative group/babylon hoverable"
+											onMouseEnter={() => setHoveredCard('babylon')}
+											onMouseLeave={() => setHoveredCard(null)}
+										>
+											{/* Line extending left toward the Babylon popup */}
+											{hoveredCard === 'babylon' && (
+												<div
+													className="absolute h-px bg-gradient-to-l from-green-400 to-transparent pointer-events-none"
+													style={{ top: '50%', right: '100%', width: '30vw' }}
+												/>
+											)}
 											<div className="bg-white/90 backdrop-blur-sm rounded-xl px-3 sm:px-4 py-2 sm:py-3 shadow-lg border border-white/30 cursor-pointer hover:shadow-xl transition-all duration-300 hoverable group-hover:scale-105 hover:scale-105 relative overflow-hidden">
 												<div className="text-sm sm:text-lg font-bold text-green-600">Babylon Microfarms</div>
 												<div className="text-xs text-gray-600">1 Year</div>
-												
-												{/* Revolving highlight line */}
 												<div className="absolute inset-0 opacity-100 group-hover/babylon:opacity-0 transition-opacity duration-300">
 													<div className="absolute inset-0 rounded-xl">
 														<div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-green-400 to-transparent animate-pulse"></div>
@@ -361,87 +374,30 @@ export default function HeroSection() {
 													</div>
 												</div>
 											</div>
-
-											{/* Detailed Babylon Microfarms Information - Responsive positioning */}
-											<div className="absolute -top-32 sm:-top-40 -left-48 sm:-left-96 opacity-0 group-hover/babylon:opacity-100 transition-all duration-700 ease-out z-50 transform group-hover/babylon:scale-100 scale-0 origin-center">
-												{/* Header Box */}
-												<div className="bg-green-600 text-white rounded-t-xl px-4 sm:px-6 py-3 sm:py-4 shadow-lg mb-3 w-64 sm:w-80 relative transform group-hover/babylon:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
-													<div className="text-base sm:text-lg font-bold">Junior Software Developer</div>
-													<div className="text-xs sm:text-sm opacity-90">June 2021 – Aug. 2021</div>
-													<div className="text-xs opacity-75">Babylon Microfarms • 3409 Carlton St, Richmond, VA</div>
-												</div>
-
-												{/* Content Boxes */}
-												<div className="relative">
-													{/* Development Box */}
-													<div className="bg-white/95 backdrop-blur-sm rounded-xl px-4 sm:px-6 py-3 sm:py-4 shadow-lg border border-white/30 mb-3 relative w-64 sm:w-80 transform group-hover/babylon:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
-														<div className="text-xs sm:text-sm font-bold text-green-600 mb-2">Development</div>
-														<div className="text-xs text-gray-700 space-y-2">
-															<div>Designed and implemented automated customer notification system tailored to individual preferences, increasing user engagement</div>
-														</div>
-													</div>
-
-													{/* Testing Box */}
-													<div className="bg-white/95 backdrop-blur-sm rounded-xl px-4 sm:px-6 py-3 sm:py-4 shadow-lg border border-white/30 relative w-64 sm:w-80 transform group-hover/babylon:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
-														<div className="text-xs sm:text-sm font-bold text-green-600 mb-2">Testing</div>
-														<div className="text-xs text-gray-700 space-y-2">
-															<div>Learned the importance of Test-Driven Development</div>
-														</div>
-													</div>
-												</div>
-											</div>
 										</div>
 
-										{/* Freddie Mac Box with Detailed Hover */}
-										<div className="relative group/freddie hoverable">
+										{/* Freddie Mac Box */}
+										<div
+											className="relative group/freddie hoverable"
+											onMouseEnter={() => setHoveredCard('freddie')}
+											onMouseLeave={() => setHoveredCard(null)}
+										>
+											{/* Line extending right toward the Freddie popup */}
+											{hoveredCard === 'freddie' && (
+												<div
+													className="absolute h-px bg-gradient-to-r from-blue-400 to-transparent pointer-events-none"
+													style={{ top: '50%', left: '100%', width: '30vw' }}
+												/>
+											)}
 											<div className="bg-white/90 backdrop-blur-sm rounded-xl px-3 sm:px-4 py-2 sm:py-3 shadow-lg border border-white/30 cursor-pointer hover:shadow-xl transition-all duration-300 hoverable group-hover:scale-105 hover:scale-105 relative overflow-hidden">
 												<div className="text-sm sm:text-lg font-bold text-blue-600">Freddie Mac</div>
 												<div className="text-xs text-gray-600">3 Years</div>
-												
-												{/* Revolving highlight line */}
 												<div className="absolute inset-0 opacity-100 group-hover/freddie:opacity-0 transition-opacity duration-300">
 													<div className="absolute inset-0 rounded-xl">
 														<div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-blue-400 to-transparent animate-pulse"></div>
 														<div className="absolute top-0 right-0 w-0.5 h-full bg-gradient-to-b from-transparent via-blue-400 to-transparent animate-pulse" style={{ animationDelay: '0.5s' }}></div>
 														<div className="absolute bottom-0 right-0 w-full h-0.5 bg-gradient-to-r from-transparent via-blue-400 to-transparent animate-pulse" style={{ animationDelay: '1s' }}></div>
 														<div className="absolute bottom-0 left-0 w-0.5 h-full bg-gradient-to-b from-transparent via-blue-400 to-transparent animate-pulse" style={{ animationDelay: '1.5s' }}></div>
-													</div>
-												</div>
-											</div>
-
-											{/* Detailed Freddie Mac Information - Responsive positioning */}
-											<div className="absolute -top-64 sm:-top-80 left-32 sm:left-80 opacity-0 group-hover/freddie:opacity-100 transition-all duration-700 ease-out z-50 transform group-hover/freddie:scale-100 scale-0 origin-center">
-												{/* Header Box */}
-												<div className="bg-blue-600 text-white rounded-t-xl px-4 sm:px-6 py-3 sm:py-4 shadow-lg mb-3 w-64 sm:w-80 relative transform group-hover/freddie:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
-													<div className="text-base sm:text-lg font-bold">Full Stack Developer</div>
-													<div className="text-xs sm:text-sm opacity-90">June 2022 – Present</div>
-													<div className="text-xs opacity-75">Freddie Mac • 8200 Jones Branch Drive</div>
-												</div>
-
-												{/* Content Boxes */}
-												<div className="relative">
-													{/* Development Box */}
-													<div className="bg-white/95 backdrop-blur-sm rounded-xl px-4 sm:px-6 py-3 sm:py-4 shadow-lg border border-white/30 mb-3 relative w-64 sm:w-80 transform group-hover/freddie:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
-														<div className="text-xs sm:text-sm font-bold text-blue-600 mb-2">Development</div>
-														<div className="text-xs text-gray-700 space-y-2">
-															<div>Contributed to the migration effort of monolithic systems to Spring Boot microservices architecture, enhancing modularity and scalability</div>
-														</div>
-													</div>
-
-													{/* Optimization Box */}
-													<div className="bg-white/95 backdrop-blur-sm rounded-xl px-4 sm:px-6 py-3 sm:py-4 shadow-lg border border-white/30 mb-3 relative w-64 sm:w-80 transform group-hover/freddie:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
-														<div className="text-xs sm:text-sm font-bold text-blue-600 mb-2">Optimization</div>
-														<div className="text-xs text-gray-700 space-y-2">
-															<div>Utilized Kibana data dashboards to identify microservice bottlenecks impacting system performance and improved response times by implementing thread-safe parallel processing with proper resource management and error handling</div>
-														</div>
-													</div>
-
-													{/* DevOps Box */}
-													<div className="bg-white/95 backdrop-blur-sm rounded-xl px-4 sm:px-6 py-3 sm:py-4 shadow-lg border border-white/30 relative w-64 sm:w-80 transform group-hover/freddie:scale-100 scale-0 transition-all duration-700 ease-out origin-center">
-														<div className="text-xs sm:text-sm font-bold text-blue-600 mb-2">DevOps</div>
-														<div className="text-xs text-gray-700 space-y-2">
-															<div>Utilized Jenkins CI/CD pipelines to automate testing and deploy validated code to production</div>
-														</div>
 													</div>
 												</div>
 											</div>
@@ -453,9 +409,67 @@ export default function HeroSection() {
 					</motion.div>
 				</div>
 
-				{/* Enhanced Scroll Indicator */}
-				<motion.div 
-					className="absolute bottom-4 sm:bottom-10 left-1/2 transform -translate-x-1/2"
+				{/* Babylon Microfarms Popup — anchored to left side of section */}
+			<AnimatePresence>
+				{hoveredCard === 'babylon' && (
+					<motion.div
+						className="hidden sm:block absolute left-36 bottom-36 z-50 w-80"
+						initial={{ opacity: 0, x: -24 }}
+						animate={{ opacity: 1, x: 0 }}
+						exit={{ opacity: 0, x: -24 }}
+						transition={{ duration: 0.25, ease: 'easeOut' }}
+					>
+						<div className="bg-green-600 text-white rounded-t-xl px-6 py-4 shadow-lg mb-3">
+							<div className="text-lg font-bold">Junior Software Developer</div>
+							<div className="text-sm opacity-90">June 2021 – Aug. 2021</div>
+							<div className="text-xs opacity-75">Babylon Microfarms • 3409 Carlton St, Richmond, VA</div>
+						</div>
+						<div className="bg-white/95 backdrop-blur-sm rounded-xl px-6 py-4 shadow-lg border border-white/30 mb-3">
+							<div className="text-sm font-bold text-green-600 mb-2">Development</div>
+							<div className="text-xs text-gray-700">Designed and implemented automated customer notification system tailored to individual preferences, increasing user engagement</div>
+						</div>
+						<div className="bg-white/95 backdrop-blur-sm rounded-xl px-6 py-4 shadow-lg border border-white/30">
+							<div className="text-sm font-bold text-green-600 mb-2">Testing</div>
+							<div className="text-xs text-gray-700">Learned the importance of Test-Driven Development</div>
+						</div>
+					</motion.div>
+				)}
+			</AnimatePresence>
+
+			{/* Freddie Mac Popup — anchored to right side of section */}
+			<AnimatePresence>
+				{hoveredCard === 'freddie' && (
+					<motion.div
+						className="hidden sm:block absolute right-36 bottom-36 z-50 w-80"
+						initial={{ opacity: 0, x: 24 }}
+						animate={{ opacity: 1, x: 0 }}
+						exit={{ opacity: 0, x: 24 }}
+						transition={{ duration: 0.25, ease: 'easeOut' }}
+					>
+						<div className="bg-blue-600 text-white rounded-t-xl px-6 py-4 shadow-lg mb-3">
+							<div className="text-lg font-bold">Full Stack Developer</div>
+							<div className="text-sm opacity-90">June 2022 – Oct. 2025</div>
+							<div className="text-xs opacity-75">Freddie Mac • 8200 Jones Branch Drive</div>
+						</div>
+						<div className="bg-white/95 backdrop-blur-sm rounded-xl px-6 py-4 shadow-lg border border-white/30 mb-3">
+							<div className="text-sm font-bold text-blue-600 mb-2">Development</div>
+							<div className="text-xs text-gray-700">Contributed to the migration of monolithic systems to Spring Boot microservices architecture, enhancing modularity and scalability. Designed GraphQL APIs for flexible data retrieval.</div>
+						</div>
+						<div className="bg-white/95 backdrop-blur-sm rounded-xl px-6 py-4 shadow-lg border border-white/30 mb-3">
+							<div className="text-sm font-bold text-blue-600 mb-2">Optimization</div>
+							<div className="text-xs text-gray-700">Used Kibana dashboards and JMeter to identify bottlenecks. Reduced API response times by 40% via optimized SQL queries and thread-safe parallel processing.</div>
+						</div>
+						<div className="bg-white/95 backdrop-blur-sm rounded-xl px-6 py-4 shadow-lg border border-white/30">
+							<div className="text-sm font-bold text-blue-600 mb-2">DevOps</div>
+							<div className="text-xs text-gray-700">Utilized Jenkins CI/CD pipelines to automate testing and deploy validated code to production across multitenant environments.</div>
+						</div>
+					</motion.div>
+				)}
+			</AnimatePresence>
+
+			{/* Enhanced Scroll Indicator — only on screens tall enough to avoid overlap */}
+				<motion.div
+					className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 hidden lg:block"
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					transition={{ delay: 2 }}
